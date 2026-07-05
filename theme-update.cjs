@@ -1,0 +1,66 @@
+const fs = require('fs');
+let content = fs.readFileSync('src/App.tsx', 'utf8');
+
+const replacements = [
+  [/bg-\[#050505\]/g, 'bg-white'],
+  [/bg-\[#111\]/g, 'bg-white'],
+  [/bg-\[#0a0a0a\]/g, 'bg-gray-50'],
+  [/from-\[#050505\]/g, 'from-white'],
+  [/to-\[#050505\]/g, 'to-white'],
+  [/via-\[#050505\]/g, 'via-white'],
+  [/border-white\/10/g, 'border-gray-200'],
+  [/border-white\/5/g, 'border-gray-100'],
+  [/border-white\/20/g, 'border-gray-300'],
+  [/bg-white\/\[0\.02\]/g, 'bg-gray-50'],
+  [/bg-white\/5/g, 'bg-gray-50'],
+  [/bg-white\/10/g, 'bg-gray-100'],
+  [/hover:bg-white\/5/g, 'hover:bg-gray-100'],
+  [/hover:bg-white\/10/g, 'hover:bg-gray-200'],
+  [/hover:bg-white\/\[0\.02\]/g, 'hover:bg-gray-50'],
+  [/text-gray-400/g, 'text-gray-600'],
+  [/text-gray-300/g, 'text-gray-700'],
+  [/hover:text-white/g, 'hover:text-gray-900'],
+  [/text-white/g, 'text-gray-900'],
+  // Revert text-gray-900 to text-white for primary buttons
+  [/className="([^"]*)bg-primary-500([^"]*)text-gray-900([^"]*)"/g, 'className="$1bg-primary-500$2text-white$3"'],
+  [/className="([^"]*)text-gray-900([^"]*)bg-primary-500([^"]*)"/g, 'className="$1text-white$2bg-primary-500$3"'],
+  [/className="([^"]*)bg-primary-600([^"]*)text-gray-900([^"]*)"/g, 'className="$1bg-primary-600$2text-white$3"'],
+  [/className="([^"]*)text-gray-900([^"]*)bg-primary-600([^"]*)"/g, 'className="$1text-white$2bg-primary-600$3"'],
+  [/className="([^"]*)bg-black([^"]*)text-gray-900([^"]*)"/g, 'className="$1bg-black$2text-white$3"'],
+  [/className="([^"]*)text-gray-900([^"]*)bg-black([^"]*)"/g, 'className="$1text-white$2bg-black$3"'],
+  [/className="([^"]*)bg-gray-900([^"]*)text-gray-900([^"]*)"/g, 'className="$1bg-gray-900$2text-white$3"'],
+  [/className="([^"]*)text-gray-900([^"]*)bg-gray-900([^"]*)"/g, 'className="$1text-white$2bg-gray-900$3"'],
+  [/group-hover:bg-primary-500 group-hover:text-gray-900/g, 'group-hover:bg-primary-500 group-hover:text-white'],
+  [/group-hover:bg-primary-600 group-hover:text-gray-900/g, 'group-hover:bg-primary-600 group-hover:text-white'],
+  [/text-gray-900 bg-primary-500\/20/g, 'text-primary-700 bg-primary-50'],
+  [/text-gray-900 bg-primary-600\/20/g, 'text-primary-700 bg-primary-50'],
+  [/text-gray-900 bg-primary-500\/10/g, 'text-primary-700 bg-primary-50'],
+  [/text-gray-900 bg-primary-600\/10/g, 'text-primary-700 bg-primary-50'],
+  [/bg-primary-500\/10 text-primary-500/g, 'bg-primary-50 text-primary-600'],
+  [/bg-primary-500\/20 text-primary-500/g, 'bg-primary-100 text-primary-600'],
+  [/text-gray-500 uppercase/g, 'text-gray-500 uppercase'],
+  [/text-gray-900\/50/g, 'text-gray-500'],
+  [/text-gray-900\/60/g, 'text-gray-500'],
+  [/text-gray-900\/70/g, 'text-gray-600'],
+  [/text-gray-900\/80/g, 'text-gray-700'],
+  [/text-gray-900\/90/g, 'text-gray-800'],
+  [/bg-white\/50/g, 'bg-gray-100'],
+  [/bg-white\/80/g, 'bg-gray-50'],
+  [/bg-white\/90/g, 'bg-white/90'],
+  [/bg-white\/20/g, 'bg-gray-200'],
+  [/border-white\/30/g, 'border-gray-300'],
+  [/border-white\/40/g, 'border-gray-400'],
+  [/border-white\/50/g, 'border-gray-500'],
+  [/border-white\/60/g, 'border-gray-600'],
+  [/border-white\/70/g, 'border-gray-700'],
+  [/border-white\/80/g, 'border-gray-800'],
+  [/border-white\/90/g, 'border-gray-900'],
+  [/shadow-\[0_10px_30px_rgba\(0,0,0,0\.5\)\]/g, 'shadow-xl'],
+  [/shadow-2xl/g, 'shadow-lg'],
+];
+
+for (const [regex, replacement] of replacements) {
+  content = content.replace(regex, replacement);
+}
+
+fs.writeFileSync('src/App.tsx', content);
